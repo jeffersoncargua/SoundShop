@@ -1,8 +1,13 @@
+import { useState, useEffect } from 'react';
+
 import Headphone from '../assets/product.jpg';
 
 export const ProductCard = ({count,setCount,productList,setProductList,shoppingcart,setShoppingCart,product,setProduct}) => {
 
+  const [newItem,setNewItem] = useState(false);
+  
   const handleShopping = (headphone) => {
+    setNewItem(true);
     setCount( count + 1);
     let newList = productList.map((productItem) => productItem.id===headphone.id && productItem.available > 0 ? {...productItem, available: productItem.available-=1} : productItem);
     setProductList(newList);
@@ -17,13 +22,15 @@ export const ProductCard = ({count,setCount,productList,setProductList,shoppingc
           imagen: '',
           cant: 1
       };
-      console.log(objeto);
       setProduct(objeto);
       setShoppingCart([...shoppingcart,objeto]);
     }
-    console.log(productList);
-    console.log(shoppingcart);
   }
+
+  useEffect(() =>{
+    setNewItem(false);
+    console.log('Se cambio a false');
+  },[newItem]);
 
   return (
     <>
