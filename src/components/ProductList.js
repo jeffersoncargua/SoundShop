@@ -1,7 +1,7 @@
 import {ProductCard} from '../components/index';
 
-export const ProductList = ({count,setCount, productList, setProductList,shoppingcart,setShoppingCart,product,setProduct}) => {
-
+export const ProductList = ({count,setCount,productList,setProductList,shoppingcart,setShoppingCart,product,setProduct}) => {
+  
   return (
     <main className="my-20">
       <div className="max-w justify-center gap-4 flex flex-wrap">

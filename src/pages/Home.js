@@ -1,6 +1,6 @@
 import {Hero , ProductList} from '../components/index';
 
-export const Home = ({count,setCount, productList, setProductList,shoppingcart,setShoppingCart,product, setProduct}) => {
+export const Home = ({count,setCount,productList,setProductList,shoppingcart,setShoppingCart,product,setProduct}) => {
   
   return (
       <main>
