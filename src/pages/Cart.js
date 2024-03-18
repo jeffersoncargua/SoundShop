@@ -1,14 +1,9 @@
-import { useEffect, useState } from 'react';
 import imagen from '../assets/product.jpg';
 
 export const Cart = ({count, setCount, productList, setProductList,shoppingcart, setShoppingCart}) => {
 
-  const [newItem,setNewItem] = useState(false);
-
   const handleIncrease = (item) => {  
-    setNewItem(true);
     let itemCart = productList.find((productItem) => productItem.id===item.id && productItem.available > 0);
-    console.log(itemCart);
     if (itemCart!==undefined) {
       let newList = productList.map((productItem) => productItem.id === item.id ? {...productItem,available:productItem.available-=1}: productItem);
       setProductList(newList);
@@ -24,7 +19,6 @@ export const Cart = ({count, setCount, productList, setProductList,shoppingcart,
   }
 
   const handleDecrease = (item) => {
-    setNewItem(true);
     let itemCart = shoppingcart.find((productItem) => productItem.id===item.id && productItem.cant > 0);
     if (itemCart!==undefined) {
       let newShopping = shoppingcart.map((cart)=> cart.id === item.id ? {...cart,cant:cart.cant-=1} : cart);
@@ -46,11 +40,6 @@ export const Cart = ({count, setCount, productList, setProductList,shoppingcart,
     setProductList(updateList);
     setCount(count-1);
   }
-
-  useEffect(() =>{
-    setNewItem(false);
-    console.log('Se cambio a false');
-  },[newItem]);
 
   return (
     <main className='mx-5 my-20 justify-center flex flex-wrap'>

@@ -1,36 +1,36 @@
-import { useState, useEffect } from 'react';
 
 import Headphone from '../assets/product.jpg';
 
 export const ProductCard = ({count,setCount,productList,setProductList,shoppingcart,setShoppingCart,product,setProduct}) => {
 
-  const [newItem,setNewItem] = useState(false);
-  
   const handleShopping = (headphone) => {
-    setNewItem(true);
-    setCount( count + 1);
-    let newList = productList.map((productItem) => productItem.id===headphone.id && productItem.available > 0 ? {...productItem, available: productItem.available-=1} : productItem);
-    setProductList(newList);
-    let cart = shoppingcart.find((productItem) => productItem.id===headphone.id);
-    if (cart!==undefined) {
-      let newShopping = shoppingcart.map((productItem) => productItem.id===cart.id ? {...productItem, cant: productItem.cant+=1} : productItem);
-      setShoppingCart(newShopping);
+    let cartItem = productList.find((productItem) => productItem.id===headphone.id && productItem.available> 0);
+    console.log(cartItem);
+    if(cartItem!==undefined){
+      setCount( count + 1);
+      let newList = productList.map((productItem) => productItem.id===headphone.id ? {...productItem, available: productItem.available-=1} : productItem);
+      setProductList(newList);
+      let cart = shoppingcart.find((productItem) => productItem.id===headphone.id);
+      if (cart!==undefined) {
+        let newShopping = shoppingcart.map((productItem) => productItem.id===cart.id ? {...productItem, cant: productItem.cant+=1} : productItem);
+        setShoppingCart(newShopping);
+      }else{
+        const objeto = {
+          id: headphone.id,
+            name: headphone.name,
+            imagen: '',
+            cant: 1
+        };
+        setProduct(objeto);
+        setShoppingCart([...shoppingcart,objeto]);
+      }
     }else{
-      const objeto = {
-        id: headphone.id,
-          name: headphone.name,
-          imagen: '',
-          cant: 1
-      };
-      setProduct(objeto);
-      setShoppingCart([...shoppingcart,objeto]);
+      console.log("Producto no disponible");
     }
+    
+    
   }
 
-  useEffect(() =>{
-    setNewItem(false);
-    console.log('Se cambio a false');
-  },[newItem]);
 
   return (
     <>

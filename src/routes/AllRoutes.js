@@ -39,7 +39,7 @@ export const AllRoutes = ({count,setCount}) => {
   setProductList(productList);
   setShoppingCart(shoppingcart);
   setProduct(product);
- },[productList,shoppingcart,product]);*/
+  },[productList,shoppingcart,product]);*/
 
   return (
     <Routes>
