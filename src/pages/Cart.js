@@ -2,43 +2,43 @@ import imagen from '../assets/product.jpg';
 
 export const Cart = ({count, setCount, productList, setProductList,shoppingcart, setShoppingCart}) => {
 
-  const handleIncrease = (item) => {  
-    let itemCart = productList.find((productItem) => productItem.id===item.id && productItem.available > 0);
+  const handleIncrease = async (item) => {  
+    let itemCart = await productList.find((productItem) => productItem.id===item.id && productItem.available > 0);
     if (itemCart!==undefined) {
-      let newList = productList.map((productItem) => productItem.id === item.id ? {...productItem,available:productItem.available-=1}: productItem);
+      let newList = await productList.map((productItem) => productItem.id === item.id ? {...productItem,available:productItem.available-=1}: productItem);
       setProductList(newList);
-      let newShopping = shoppingcart.map((cart)=> cart.id === item.id ? {...cart,cant:cart.cant+=1 } : cart)
+      let newShopping = await shoppingcart.map((cart)=> cart.id === item.id ? {...cart,cant:cart.cant+=1 } : cart)
       setCount(count+1);
       setShoppingCart(newShopping);
     }else{
-      let newList = productList.map((productItem) => productItem.id === item.id ? {...productItem,available:productItem.available=0}: productItem);
+      let newList = await productList.map((productItem) => productItem.id === item.id ? {...productItem,available:productItem.available=0}: productItem);
       setProductList(newList);
       console.log('No se puede obtener mas articulos');
     }
     
   }
 
-  const handleDecrease = (item) => {
-    let itemCart = shoppingcart.find((productItem) => productItem.id===item.id && productItem.cant > 0);
+  const handleDecrease = async(item) => {
+    let itemCart = await shoppingcart.find((productItem) => productItem.id===item.id && productItem.cant > 0);
     if (itemCart!==undefined) {
-      let newShopping = shoppingcart.map((cart)=> cart.id === item.id ? {...cart,cant:cart.cant-=1} : cart);
+      let newShopping = await shoppingcart.map((cart)=> cart.id === item.id ? {...cart,cant:cart.cant-=1} : cart);
       setShoppingCart(newShopping);
-      let newList = productList.map((productItem) => productItem.id ===item.id ? {...productItem,available:productItem.available+=1} : productItem);
+      let newList = await productList.map((productItem) => productItem.id ===item.id ? {...productItem,available:productItem.available+=1} : productItem);
       setCount(count-1);
       setProductList(newList);
     }else{
-      let newList= shoppingcart.filter((productItem) => productItem.id !== item.id);
+      let newList= await shoppingcart.filter((productItem) => productItem.id !== item.id);
       console.log(newList);
       setShoppingCart(newList);
     }
   }
 
-  const handleDelete = (item) => {
-    let newList = shoppingcart.filter((cart) => cart.id !==item.id);
+  const handleDelete = async(item) => {
+    let newList = await shoppingcart.filter((cart) => cart.id !==item.id);
     setShoppingCart(newList);
-    let updateList = productList.map((productItem) => productItem.id ===item.id ? {...productItem,available:productItem.available+=item.cant} : productItem);
+    let updateList = await productList.map((productItem) => productItem.id ===item.id ? {...productItem,available:productItem.available+=item.cant} : productItem);
     setProductList(updateList);
-    setCount(count-1);
+    setCount(count-item.cant);
   }
 
   return (

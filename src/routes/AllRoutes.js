@@ -1,16 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-//import { useState, useEffect } from "react";
 
 import { Home,Cart,Contact,PageNotFound } from "../pages/index";
 
-
 export const AllRoutes = ({count,setCount,productList,setProductList,shoppingcart,setShoppingCart,product,setProduct}) => {
-
- /*useEffect(() => {
-  setProductList(productList);
-  setShoppingCart(shoppingcart);
-  setProduct(product);
-  },[productList,shoppingcart,product]);*/
 
   return (
     <Routes>

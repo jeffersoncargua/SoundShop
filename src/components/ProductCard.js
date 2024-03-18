@@ -3,16 +3,16 @@ import Headphone from '../assets/product.jpg';
 
 export const ProductCard = ({count,setCount,productList,setProductList,shoppingcart,setShoppingCart,product,setProduct}) => {
 
-  const handleShopping = (headphone) => {
-    let cartItem = productList.find((productItem) => productItem.id===headphone.id && productItem.available> 0);
+  const handleShopping = async (headphone) => {
+    let cartItem = await productList.find((productItem) => productItem.id===headphone.id && productItem.available> 0);
     console.log(cartItem);
     if(cartItem!==undefined){
       setCount( count + 1);
-      let newList = productList.map((productItem) => productItem.id===headphone.id ? {...productItem, available: productItem.available-=1} : productItem);
+      let newList = await productList.map((productItem) => productItem.id===headphone.id ? {...productItem, available: productItem.available-=1} : productItem);
       setProductList(newList);
       let cart = shoppingcart.find((productItem) => productItem.id===headphone.id);
       if (cart!==undefined) {
-        let newShopping = shoppingcart.map((productItem) => productItem.id===cart.id ? {...productItem, cant: productItem.cant+=1} : productItem);
+        let newShopping = await shoppingcart.map((productItem) => productItem.id===cart.id ? {...productItem, cant: productItem.cant+=1} : productItem);
         setShoppingCart(newShopping);
       }else{
         const objeto = {
@@ -27,15 +27,11 @@ export const ProductCard = ({count,setCount,productList,setProductList,shoppingc
     }else{
       console.log("Producto no disponible");
     }
-    
-    
   }
-
 
   return (
     <>
     { productList.map((productItem) => (
-      
       <div key={productItem.id} className='max-w-sm text-center p-2 border border-gray-300 rounded-md'>
         <img className='rounded-lg' src={Headphone} alt="Imagen Producto" />
         <h1 className='text-3xl my-3'>{productItem.name}</h1>

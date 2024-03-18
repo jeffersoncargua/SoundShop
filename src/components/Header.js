@@ -9,8 +9,8 @@ export const Header = ({count, setCount}) => {
         <span className='text-xl justify-self-center'>SoundMate</span>        
       </div>
       <div className='flex flex-wrap text-lg justify-center'>
-        <Link to='/' className='hover:bg-gray-200 hover:rounded-lg p-2' href="/">Home</Link>
-        <Link to='cart' className='hover:bg-gray-200 hover:rounded-lg p-2' href="/">Cart</Link>
+        <Link to='/' className='hover:bg-gray-200 hover:rounded-lg p-2'>Home</Link>
+        <Link to='cart' className='hover:bg-gray-200 hover:rounded-lg p-2'>Cart</Link>
       </div>
       <div className='text-center'>
         <Link to='cart'><span className='bg-gray-100 rounded-full p-2'>{count}</span></Link>
