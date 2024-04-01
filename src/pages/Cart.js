@@ -1,50 +1,39 @@
+import { useSelector, useDispatch} from 'react-redux';
+import { add,remove,deleteItem } from '../store/cartSlice';
+import { decrease,increase,restoreStock } from '../store/productSlice';
+
 import imagen from '../assets/product.jpg';
 
-export const Cart = ({count, setCount, productList, setProductList,shoppingcart, setShoppingCart}) => {
+export const Cart = () => {
+  const shoppingCart = useSelector(state => state.cartState.shoppingCart);
+  const productList = useSelector(state => state.productState.productList);
+  const dispatch = useDispatch();
 
-  const handleIncrease = async (item) => {  
-    let itemCart = await productList.find((productItem) => productItem.id===item.id && productItem.available > 0);
-    if (itemCart!==undefined) {
-      let newList = await productList.map((productItem) => productItem.id === item.id ? {...productItem,available:productItem.available-=1}: productItem);
-      setProductList(newList);
-      let newShopping = await shoppingcart.map((cart)=> cart.id === item.id ? {...cart,cant:cart.cant+=1 } : cart)
-      setCount(count+1);
-      setShoppingCart(newShopping);
-    }else{
-      let newList = await productList.map((productItem) => productItem.id === item.id ? {...productItem,available:productItem.available=0}: productItem);
-      setProductList(newList);
-      console.log('No se puede obtener mas articulos');
-    }
-    
-  }
-
-  const handleDecrease = async(item) => {
-    let itemCart = await shoppingcart.find((productItem) => productItem.id===item.id && productItem.cant > 0);
-    if (itemCart!==undefined) {
-      let newShopping = await shoppingcart.map((cart)=> cart.id === item.id ? {...cart,cant:cart.cant-=1} : cart);
-      setShoppingCart(newShopping);
-      let newList = await productList.map((productItem) => productItem.id ===item.id ? {...productItem,available:productItem.available+=1} : productItem);
-      setCount(count-1);
-      setProductList(newList);
-    }else{
-      let newList= await shoppingcart.filter((productItem) => productItem.id !== item.id);
-      console.log(newList);
-      setShoppingCart(newList);
+  const handleIncrease = (product) => {
+    const isInStock = productList.find(productItem => productItem.id === product.id && productItem.available > 0);
+    if (isInStock) {
+      dispatch(add(product));
+      dispatch(decrease(product));
     }
   }
 
-  const handleDelete = async(item) => {
-    let newList = await shoppingcart.filter((cart) => cart.id !==item.id);
-    setShoppingCart(newList);
-    let updateList = await productList.map((productItem) => productItem.id ===item.id ? {...productItem,available:productItem.available+=item.cant} : productItem);
-    setProductList(updateList);
-    setCount(count-item.cant);
+  const handleDecrease = (product) => {
+    const isInCart = shoppingCart.find(item => item.id === product.id && item.cant > 0);
+    if(isInCart){
+      dispatch(remove(product));
+      dispatch(increase(product));
+    }
+  }
+
+  const handleDelete = (product) => {
+    dispatch(deleteItem(product));
+    dispatch(restoreStock(product));
   }
 
   return (
     <main className='mx-5 my-20 justify-center flex flex-wrap'>
       {
-        shoppingcart.map((productItem) => (
+        shoppingCart.map((productItem) => (
           <div key={productItem.id} className='flex flex-col md:flex-row border border-gray-300 my-5'>
             <div className='flex flex-col md:flex-row mx-2 my-5'>
               <div className=''>

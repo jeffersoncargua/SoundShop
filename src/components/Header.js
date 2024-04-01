@@ -1,7 +1,15 @@
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/logo.png';
 
-export const Header = ({count, setCount}) => {
+export const Header = () => {
+
+  const shoppingCart = useSelector(state => state.cartState.shoppingCart);
+  let count = 0;
+  shoppingCart.forEach(item => {
+    count = count + item.cant;
+  });
+
   return (
     <main className='p-2 grid grid-cols-3 gap-3 border-b items-center'>
       <div className='flex'>
